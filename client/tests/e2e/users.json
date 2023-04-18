@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "5ee7425af161293f18d9be02",
+    "email": "marie.shelley@mainbot.me",
+    "isValidatedEmail": true,
+    "password": "Agent78*",
+    "createdAt": "2020-06-15T09:41:46.227Z",
+    "updatedAt": "2020-06-15T09:41:46.227Z"
+  },
+  {
+    "_id": "5ee7425af161293f18d9be03",
+    "email": "stephen.hawkins@mainbot.me",
+    "isValidatedEmail": true,
+    "password": "Agent78*",
+    "createdAt": "2020-06-15T09:41:46.227Z",
+    "updatedAt": "2020-06-15T09:41:46.227Z"
+  },
+  {
+    "_id": "5ee7425af161293f18d9be55",
+    "email": "adalovelace@mainbot.me",
+    "isValidatedEmail": true,
+    "password": "Agent78*",
+    "createdAt": "2020-06-15T09:41:46.227Z",
+    "updatedAt": "2020-06-15T09:41:46.227Z"
+  }
+]

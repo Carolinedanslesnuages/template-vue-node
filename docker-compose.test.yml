@@ -1,0 +1,114 @@
+version: '3.5'
+
+services:
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+    logging:
+      driver: none
+    networks:
+      - app-network-test
+
+  app-db:
+    image: mongo:4.0.16
+    ports:
+      - 27017:27017
+    volumes:
+      - ./server/init-db/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASS:-changeme75}
+      MONGO_INITDB_DATABASE: ${DB_NAME:-app}
+      DB_USER: ${DB_USER:-app}
+      DB_PASSWD: ${DB_PASSWD:-app}
+      DB_NAME: ${DB_NAME:-app}
+    networks:
+      - app-network-test
+
+  app-server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+      target: dev
+    image: app/server:test
+    depends_on:
+      - app-db
+    ports:
+      - 4000:4000
+    volumes:
+      - ./server:/app/
+      - /app/node_modules/
+    environment:
+      DB_HOST: app-db
+      DB_PORT: ${DB_PORT:-27017}
+      DB_USER: ${DB_USER:-app}
+      DB_PASSWD: ${DB_PASSWD:-app}
+      DB_NAME: ${DB_NAME:-app}
+      SMTP_HOST: mailhog
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      EMAIL_SENDER: ${EMAIL_SENDER:-app@mainbot.me}
+      PUBLIC_URL: http://app-client:8080
+      TOKEN_SECRET: ${TOKEN_SECRET:-secret}
+      EXPERIMENTATION: ${EPERIMENTATION:-false}
+      CI: "true"
+      DEV_SETUP: "true"
+    restart: on-failure
+    command: node --experimental-json-modules src/server.js
+    networks:
+      - app-network-test
+
+  app-client:
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+      target: dev
+    image: app/client:test
+    depends_on:
+      - app-server
+    ports:
+      - 8080:8080
+    volumes:
+      - ./client:/app/
+      - /app/node_modules/
+    environment:
+      SERVER_HOST: app-server
+      SERVER_PORT: 4000
+      VITE_APP_EXPERIMENTATION: ${VITE_APP_EXPERIMENTATION:-false}
+      VITE_APP_GIT_TAG: ${VITE_APP_GIT_TAG:-local}
+      VITE_APP_GIT_SHA: ${VITE_APP_GIT_SHA:-local}
+    restart: on-failure
+    command: npm start
+    networks:
+      - app-network-test
+
+  app-cypress:
+    build:
+      context: ./client
+      dockerfile: ./tests/Dockerfile
+      shm_size: '2gb'
+    image: app/cypress:test
+    depends_on:
+      - app-client
+    volumes:
+      - ./client/src:/app/src/
+      - ./client/tests:/app/tests/
+      - ./client/cypress.config.js:/app/cypress.config.js
+      - /app/node_modules/
+    environment:
+      CLIENT_HOST: app-client
+      CLIENT_PORT: 8080
+      SMTP_UI_HOST: mailhog
+      SMTP_UI_PORT: 8025
+    command: sh -c "/app/node_modules/.bin/wait-on --log 'http://app-server:4000/api/v1/version' && cypress run" # --browser firefox
+    networks:
+      - app-network-test
+
+networks:
+  app-network-test:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450

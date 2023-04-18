@@ -1,0 +1,5 @@
+{
+  "server/**/*.{js,cjs}": "npm run format:server --",
+  "client/**/*.{js,vue}": "npm run format:client --",
+  "client/**/*.{vue, css}": "npm run format:css --"
+}

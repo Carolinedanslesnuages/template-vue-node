@@ -1,0 +1,42 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "A changer",
+  "main": "index.js",
+  "devDependencies": {
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "npm-run-all": "^4.1.5"
+  },
+  "scripts": {
+    "dev:build": "./ci/scripts/source-env-file.sh -e ./server/.env -e ./client/.env && docker-compose --file ./docker-compose.dev.yml build --parallel",
+    "dev:up": "./ci/scripts/source-env-file.sh -e ./server/.env -e ./client/.env && docker-compose --file ./docker-compose.dev.yml up",
+    "dev:down": "docker-compose --file ./docker-compose.dev.yml down --volumes",
+    "test:e2e": "./ci/scripts/source-env-file.sh -e ./server/.env -e ./client/.env && docker-compose --file ./docker-compose.test.yml up --detach mailhog app-server app-client; cd client; npm run test:e2e; cd -; npm run test:e2e-down",
+    "test:e2e-build": "./ci/scripts/source-env-file.sh -e ./server/.env -e ./client/.env && docker-compose --file ./docker-compose.test.yml build --parallel",
+    "test:e2e-ci": "npm run test:e2e-up; npm run test:e2e-down",
+    "test:e2e-up": "./ci/scripts/source-env-file.sh -e ./server/.env -e ./client/.env && docker-compose --file ./docker-compose.test.yml up --exit-code-from app-cypress",
+    "test:e2e-down": "docker-compose --file ./docker-compose.test.yml down --volumes",
+    "test:e2e-rs": "docker stop app_app-db_1 app_app-server_1; docker rm app_app-db_1 app_app-server_1; docker-compose --file ./docker-compose.test.yml up --detach app-db app-server",
+    "test:ct": "cd client; npm run test:ct",
+    "test:ct-ci": "cd client; npm run test:ct-ci",
+    "format:css": "cd client; npm run format:css",
+    "format:client": "cd client; npm run format",
+    "format:server": "cd server; npm run format",
+    "format:all": "run-p format:server format:client --",
+    "test:client": "cd client; npm test",
+    "test:server": "cd server; npm test",
+    "test:all": "run-s test:server test:client",
+    "postinstall": "npx husky install",
+    "test:ci": "./ci/act/scripts/run-ci-locally.sh"
+  },
+
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+
+  "volta": {
+    "node": "16.16.0",
+    "npm": "8.11.0"
+  }
+}

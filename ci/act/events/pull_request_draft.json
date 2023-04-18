@@ -1,0 +1,11 @@
+{
+  "pull_request": {
+    "head": {
+      "ref": "this-is-a-test"
+    },
+    "base": {
+      "ref": "this-is-the-base"
+    },
+    "draft": true
+  }
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "_id": "5ee7425af161293f18d9be01",
+    "email": "m.claude@interieur.gouv.fr",
+    "isValidatedEmail": true,
+    "password": "Agent78*",
+    "createdAt": "2020-06-15T09:41:46.227Z",
+    "updatedAt": "2020-06-15T09:41:46.227Z"
+  },
+  {
+    "_id": "5ee7425af161293f18d9be02",
+    "email": "marie.shelley@interieur.gouv.fr",
+    "isValidatedEmail": true,
+    "password": "Agent78*",
+    "createdAt": "2020-06-15T09:41:46.227Z",
+    "updatedAt": "2020-06-15T09:41:46.227Z"
+  },
+  {
+    "_id": "5ee7425af161293f18d9be03",
+    "email": "stephen.hawkins@interieur.gouv.fr",
+    "isValidatedEmail": true,
+    "password": "Agent78*",
+    "createdAt": "2020-06-15T09:41:46.227Z",
+    "updatedAt": "2020-06-15T09:41:46.227Z"
+  }

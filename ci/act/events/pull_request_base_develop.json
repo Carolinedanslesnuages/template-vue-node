@@ -1,0 +1,11 @@
+{
+  "pull_request": {
+    "head": {
+      "ref": "qualif/9.9.9"
+    },
+    "base": {
+      "ref": "develop"
+    },
+    "draft": false
+  }
+}

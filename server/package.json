@@ -1,0 +1,95 @@
+{
+  "name": "app-server",
+  "version": "1.0.0",
+  "description": "Partie server de APP ",
+  "main": "src/server.js",
+  "type": "module",
+  "cacheDirectories": [
+    "node_modules"
+  ],
+  "engines": {
+    "node": ">= 16.16.0 < 18.4.2",
+    "npm": ">= 7.19.1"
+  },
+  "scripts": {
+    "compose:up": "docker-compose -f docker-compose.dev.yml up -d",
+    "compose:down": "docker-compose -f docker-compose.dev.yml down -v",
+    "compose:start": "docker-compose -f docker-compose.dev.yml start",
+    "compose:stop": "docker-compose -f docker-compose.dev.yml stop",
+    "lint": "eslint src",
+    "format": "eslint --cache --fix src",
+    "start": "pm2-runtime start --name 'app-api' node -- --experimental-json-modules src/server.js",
+    "start-ci": "pm2 start --name 'app-api' node -- --experimental-json-modules src/server.js",
+    "stop-ci": "pm2 stop app-api",
+    "logs": "pm2 logs app-api",
+    "stop": "pm2 stop app-api",
+    "dev": "nodemon --inspect --experimental-json-modules src/server.js",
+    "dev-ci": "CI=true DEV_SETUP=true NODE_ENV=test nodemon --experimental-json-modules --inspect src/server.js",
+    "pretest": "npm run lint",
+    "test": "EXPERIMENTATION=false vitest --globals --run",
+    "test:watch": "EXPERIMENTATION=false vitest --globals --watch",
+    "jsdoc:watch": "nodemon --watch src --watch README.md --exec 'npm run jsdoc'",
+    "jsdoc:serve": "browser-sync start --no-ui --server --open --files out/**/* --ss out",
+    "jsdoc-dev": "run-p jsdoc:*",
+    "jsdoc": "jsdoc -c jsdoc-config.json -r src ../README.md"
+  },
+  "author": "MBcaroline",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "date-fns": "^2.29.1",
+    "date-fns-tz": "^1.3.6",
+    "delay": "^5.0.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "helmet": "^5.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.14",
+    "mongoose-beautiful-unique-validation": "^7.1.1",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.7.7",
+    "pm2": "^5.2.0",
+    "rate-limiter-flexible": "^2.3.8",
+    "uuid": "^8.3.2",
+    "winston": "^3.8.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/eslint-parser": "^7.18.9",
+    "@babel/eslint-plugin": "^7.18.10",
+    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
+    "@babel/plugin-syntax-import-assertions": "^7.18.6",
+    "@babel/preset-env": "^7.18.10",
+    "@sindresorhus/slugify": "^1.1.2",
+    "@types/express": "^4.17.13",
+    "@types/nodemailer": "^6.4.4",
+    "@types/winston": "^2.4.4",
+    "eslint": "^8.21.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-promise": "^6.0.0",
+    "@faker-js/faker": "^7.3.0",
+    "jsdoc": "^3.6.11",
+    "eslint-plugin-node": "^11.1.0",
+    "jsdoc-plugin-intersection": "^1.0.4",
+    "jsdoc-plugin-typescript": "^2.1.1",
+    "mongodb-memory-server": "^8.8.0",
+    "nodemon": "^2.0.19",
+    "npm-run-all": "^4.1.5",
+    "supertest": "^6.2.4",
+    "vitest": "^0.20.3"
+  },
+  "volta": {
+    "node": "16.16.0",
+    "npm": "8.11.0"
+  },
+  "config": {
+    "mongodbMemoryServer": {
+      "disablePostinstall": false,
+      "runtimeDownload": true,
+      "version": "4.0.16",
+      "downloadDir": "./node_modules/.cache/mongodb-binaries"
+    }
+  }
+}

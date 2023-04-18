@@ -1,0 +1,10 @@
+{
+  "conventionalCommits.scopes": [
+    "migration",
+    "Experimentation",
+    "RefonteFormulaire",
+    "RefonteLogin",
+    "RefonteSynthese",
+    "RefonteUserForm"
+  ]
+}

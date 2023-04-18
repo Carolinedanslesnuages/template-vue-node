@@ -1,0 +1,99 @@
+{
+  "name": "Dev container (Debian based)",
+  // Use 'Dockerfile.dfromd' to use docker from docker (app containers are running on host isntead of remote dev container)
+  "dockerFile": "Dockerfile.dind",
+  // Use only '--init' to use docker from docker
+  "runArgs": [
+    "--init",
+    "--privileged"
+  ],
+  "overrideCommand": false,
+  // Add "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind" to use docker from docker
+  "mounts": [
+    "source=vscode-server-extensionsy,target=/root/.vscode-server/extensions,type=volume"
+  ],
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
+  // Use this environment variable if you need to bind mount your local source code into a new container.
+  "remoteEnv": {
+    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+  },
+  // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  // Use 'node' user if the image used is 'mcr.microsoft.com/vscode/devcontainers/javacript-node'
+  // "remoteUser": "vscode",
+  "forwardPorts": [
+    27017,
+    4000,
+    8080,
+    8081,
+    8025,
+    1025
+  ],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "docker --version",
+  "extensions": [
+    // Language support for Vue 3
+    // https://github.com/johnsoncodehk/volar
+    "vue.volar",
+    "vue.vscode-typescript-vue-plugin",
+    // Language support for PostCSS
+    // https://github.com/csstools/postcss-language
+    "csstools.postcss",
+    // Peek and go-to-definition for .vue files
+    // https://github.com/fuzinato/vscode-vue-peek
+    "dariofuzinato.vue-peek",
+    // Lint-on-save with ESLint
+    // https://github.com/microsoft/vscode-eslint
+    "dbaeumer.vscode-eslint",
+    // Lint-on-save with Stylelint
+    // https://github.com/stylelint/vscode-stylelint
+    "stylelint.vscode-stylelint",
+    // Lint-on-save markdown in README files
+    // https://github.com/DavidAnson/vscode-markdownlint
+    "DavidAnson.vscode-markdownlint",
+    // Test `.unit.js` files on save with Jest
+    // https://github.com/jest-community/vscode-jest
+    "Orta.vscode-jest",
+    // npm support for VS Code
+    // https://github.com/Microsoft/vscode-npm-scripts
+    "eg2.vscode-npm-script",
+    // Visual Studio Code plugin that autocompletes npm modules in import statements
+    // https://github.com/ChristianKohler/NpmIntellisense
+    "christian-kohler.npm-intellisense",
+    // Visual Studio Code plugin that autocompletes filenames
+    // https://github.com/ChristianKohler/PathIntellisense
+    "christian-kohler.path-intellisense",
+    // Shows the latest version for each package using code lens
+    // https://gitlab.com/versionlens/vscode-versionlens
+    "pflannery.vscode-versionlens",
+    // 💬Conventional Commits for VSCode.
+    // https://github.com/vivaxy/vscode-conventional-commits
+    "vivaxy.vscode-conventional-commits",
+    // EditorConfig Support for Visual Studio Code
+    // https://github.com/editorconfig/editorconfig-vscode
+    "editorconfig.editorconfig",
+    // Git Utility
+    // https://github.com/eamodio/vscode-gitlens
+    "eamodio.gitlens",
+    // View a Git Graph of your repository, and perform Git actions from the graph.
+    // https://github.com/mhutchie/vscode-git-graph
+    "mhutchie.git-graph",
+    // Utility to change files icons
+    // https://github.com/vscode-icons/vscode-icons
+    "vscode-icons-team.vscode-icons",
+    // Makes indentation easier to read
+    // https://github.com/oderwat/vscode-indent-rainbow
+    "oderwat.indent-rainbow",
+    "humao.rest-client",
+    "shinnn.stylelint",
+    "pflannery.vscode-versionlens",
+    "ricard.postcss",
+    "wix.vscode-import-cost",
+    "ms-vsliveshare.vslives",
+    "vivaxy.vscode-conventional-commits",
+    "ms-azuretools.vscode-docker",
+    "eamodio.gitlens",
+    "ms-vsliveshare.vsliveshare",
+    "pflannery.vscode-versionlens"
+  ]
+}
